@@ -139,7 +139,7 @@
 
 #define DAPM_LDO_H_STANDALONE "LDO_H"
 
-static int tasha_cpe_debug_mode;
+static int tasha_cpe_debug_mode = 0;
 module_param(tasha_cpe_debug_mode, int,
 	     S_IRUGO | S_IWUSR | S_IWGRP);
 MODULE_PARM_DESC(tasha_cpe_debug_mode, "tasha boot cpe in debug mode");
