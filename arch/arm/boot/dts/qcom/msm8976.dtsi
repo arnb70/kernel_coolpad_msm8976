@@ -2699,6 +2699,11 @@
 		qcom,clk_div = <27>;
 	};
 
+	audio_amplifier {
+		compatible = "aw,aw8738";
+		ext-spk-amp-gpio = <&msm_gpio 101 0>;
+	};
+
 	qcom,mss@4080000 {
 		compatible = "qcom,pil-q6v55-mss";
 		reg = <0x04080000 0x100>,
