@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=Graphene1.2
+kernel.string=Graphene1.3.1
 do.devicecheck=0
 do.modules=0
 do.systemless=1
