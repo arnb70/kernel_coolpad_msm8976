@@ -178,7 +178,9 @@ int diag_md_write(int id, unsigned char *buf, int len, int ctx)
 			continue;
 		}
 		found = 1;
-		driver->data_ready[i] |= USER_SPACE_DATA_TYPE;
+		if (!(driver->data_ready[i] & USER_SPACE_DATA_TYPE)) {
+			driver->data_ready[i] |= USER_SPACE_DATA_TYPE;
+		}
 		pr_debug("diag: wake up logging process\n");
 		wake_up_interruptible(&driver->wait_q);
 	}

@@ -1,4 +1,5 @@
-/* Copyright (c) 2013-2016, The Linux Foundation. All rights reserved.
+
+/* Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -531,7 +532,7 @@ static long msm_buf_mngr_subdev_ioctl(struct v4l2_subdev *sd,
 		rc = -ENOMEM;
 		return rc;
 	}
-	switch (cmd) {
+
 	case VIDIOC_MSM_BUF_MNGR_IOCTL_CMD: {
 		struct msm_camera_private_ioctl_arg k_ioctl, *ptr;
 
@@ -555,6 +556,16 @@ static long msm_buf_mngr_subdev_ioctl(struct v4l2_subdev *sd,
 				return -EFAULT;
 			}
 			k_ioctl.ioctl_ptr = (uintptr_t)&buf_info;
+			if (!is_compat_task()) {
+				MSM_CAM_GET_IOCTL_ARG_PTR(&tmp,
+					&k_ioctl.ioctl_ptr, sizeof(tmp));
+				if (copy_from_user(&buf_info,
+					(void __user *)tmp,
+					sizeof(struct msm_buf_mngr_info))) {
+					return -EFAULT;
+				}
+				k_ioctl.ioctl_ptr = (uintptr_t)&buf_info;
+			}
 			argp = &k_ioctl;
 			rc = msm_cam_buf_mgr_ops(cmd, argp);
 			}
@@ -564,6 +575,9 @@ static long msm_buf_mngr_subdev_ioctl(struct v4l2_subdev *sd,
 			return -EINVAL;
 		}
 		}
+		break;
+	case VIDIOC_MSM_BUF_MNGR_GET_BUF:
+		rc = msm_buf_mngr_get_buf(buf_mngr_dev, argp);
 		break;
 	case VIDIOC_MSM_BUF_MNGR_GET_BUF:
 	case VIDIOC_MSM_BUF_MNGR_BUF_DONE:
