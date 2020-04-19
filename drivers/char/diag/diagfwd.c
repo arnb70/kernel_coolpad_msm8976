@@ -431,6 +431,7 @@ void diag_update_userspace_clients(unsigned int type)
 		if (driver->client_map[i].pid != 0 &&
 			!(driver->data_ready[i] & type)) {
 			driver->data_ready[i] |= type;
+		}
 	wake_up_interruptible(&driver->wait_q);
 	mutex_unlock(&driver->diagchar_mutex);
 }

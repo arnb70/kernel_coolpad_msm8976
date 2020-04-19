@@ -537,7 +537,6 @@ static long msm_buf_mngr_subdev_ioctl(struct v4l2_subdev *sd,
 	case VIDIOC_MSM_BUF_MNGR_GET_BUF:
 		rc = msm_buf_mngr_get_buf(buf_mngr_dev, argp);
 		break;
-	case VIDIOC_MSM_BUF_MNGR_GET_BUF:
 	case VIDIOC_MSM_BUF_MNGR_BUF_DONE:
 	case VIDIOC_MSM_BUF_MNGR_PUT_BUF:
 		rc = msm_cam_buf_mgr_ops(cmd, argp);
