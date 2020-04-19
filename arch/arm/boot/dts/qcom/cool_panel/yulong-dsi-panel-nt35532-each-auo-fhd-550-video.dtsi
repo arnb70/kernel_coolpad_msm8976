@@ -573,7 +573,9 @@
 		qcom,mdss-dsi-on-command-state = "dsi_lp_mode";
 		qcom,mdss-dsi-off-command-state = "dsi_lp_mode";
 		/*************esd********/
-		qcom,esd-check-enabled;
+		//qcom,esd-check-enabled;
+		qcom,ulps-enabled;
+		qcom,panel-allow-phy-poweroff;
 		qcom,mdss-dsi-panel-status-value = <0x9C 0x00 0x00 0x02 0x40 0x80 0x00 0x00>;
 		qcom,mdss-dsi-panel-status-command = [06 01 00 01 05 00 02 0A 08];
 		qcom,mdss-dsi-panel-status-read-length = <8>;
