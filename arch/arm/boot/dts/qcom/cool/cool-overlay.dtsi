@@ -1,3 +1,5 @@
+//#include "Batterydata_CPLD403_Coslight_4000mAh_4400mv.dtsi"
+//#include "Batterydata_CPLD403_Lishen_4000mAh_4400mv.dtsi"
 #include "cool-msm8976.dtsi"
 #include "cool-msm8976-pinctrl.dtsi"
 #include "cool-msm8976-mtp.dtsi"
