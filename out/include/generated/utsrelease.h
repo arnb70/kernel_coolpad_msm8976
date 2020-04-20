@@ -1,1 +1,0 @@
-#define UTS_RELEASE "3.10.108-PureCAF+.LA.BR.1.3.7.c25-07400-8976.0-g4c791d31f-dirty"
