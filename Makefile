@@ -239,11 +239,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 	  else if [ -x /bin/bash ]; then echo /bin/bash; \
 	  else echo sh; fi ; fi)
 
-# CCACHE
-CCACHE := $(shell which ccache)
-
-HOSTCC       = $(CCACHE) gcc
-HOSTCXX      = $(CCACHE) g++
+HOSTCC       = gcc
+HOSTCXX      = g++
 HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
 HOSTCXXFLAGS = -O2
 
@@ -329,7 +326,7 @@ include $(srctree)/scripts/Kbuild.include
 
 AS		= $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld
-CC		= $(CCACHE) $(CROSS_COMPILE)gcc
+CC		= $(CROSS_COMPILE)gcc
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
@@ -384,19 +381,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks \
-		   -Wno-deprecated-declarations \
-		   -Wno-misleading-indentation \
-		   -Wno-unused-const-variable \
-		   -Wno-shift-overflow \
-		   -Wno-bool-compare \
-		   -Wno-memset-transposed-args \
-		   -Wno-discarded-array-qualifiers -std=gnu89 \
-		   -Wno-tautological-compare -Wno-array-bounds \
-		   -Wno-duplicate-decl-specifier \
-		   -Wno-memset-elt-size -Wno-switch-unreachable \
-		   -Wno-format-truncation -Wno-format-overflow \
-		   -Wno-int-in-bool-context -Wno-bool-operation \
-		   -Wno-nonnull
+		   -std=gnu89
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
@@ -598,13 +583,10 @@ all: vmlinux
 KBUILD_CFLAGS   += $(call cc-disable-warning,format-truncation,)
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
-KBUILD_CFLAGS	+= -O2 $(call cc-disable-warning,maybe-uninitialized,)
+KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
 else
 KBUILD_CFLAGS   += -O2 -pipe $(call cc-disable-warning,maybe-uninitialized,)
 endif
-
-# Disable all maybe-uninitialized warnings
-KBUILD_CFLAGS	+= $(call cc-disable-warning,maybe-uninitialized,)
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
 
