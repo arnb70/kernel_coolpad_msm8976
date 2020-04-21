@@ -69,6 +69,8 @@ config IOSCHED_ZEN
 	FCFS, dispatches are back-inserted, deadlines ensure fairness.
         Should work best with devices where there is no travel delay.
 
+choice
+
 	prompt "Default I/O scheduler"
 	default DEFAULT_CFQ
 	help

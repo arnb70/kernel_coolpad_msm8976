@@ -1,4 +1,3 @@
-
 qcom,yl_batterydata_cpld403_lishen_4000mah {
 	qcom,max-voltage-uv = <4400000>;
 	qcom,nom-batt-capacity-mah = <4060>;
