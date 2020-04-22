@@ -2562,6 +2562,7 @@ done:
 		return -EINVAL;
 	}
 	return 0;
+>>>>>>> 133faff1fdd8... sound: DTS-Eagle integration
 }
 
 static int msm_compr_query_audio_effect_put(struct snd_kcontrol *kcontrol,
