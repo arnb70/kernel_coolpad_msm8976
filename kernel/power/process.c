@@ -91,12 +91,12 @@ static int try_to_freeze_tasks(bool user_only)
 	elapsed_msecs = elapsed_msecs64;
 
 	if (wakeup) {
-		printk("\n");
-		printk(KERN_ERR "Freezing of tasks aborted after %d.%03d seconds",
+		pr_debug("\n");
+		pr_debug(KERN_ERR "Freezing of tasks aborted after %d.%03d seconds",
 		       elapsed_msecs / 1000, elapsed_msecs % 1000);
 	} else if (todo) {
-		printk("\n");
-		printk(KERN_ERR "Freezing of tasks failed after %d.%03d seconds"
+		pr_debug("\n");
+		pr_debug(KERN_ERR "Freezing of tasks failed after %d.%03d seconds"
 		       " (%d tasks refusing to freeze, wq_busy=%d):\n",
 		       elapsed_msecs / 1000, elapsed_msecs % 1000,
 		       todo - wq_busy, wq_busy);
@@ -175,10 +175,10 @@ int freeze_processes(void)
 			error = -EBUSY;
 			goto done;
 		}
-		printk("done.");
+		pr_debug("done.");
 	}
 done:
-	printk("\n");
+	pr_debug("\n");
 	BUG_ON(in_atomic());
 
 	if (error)
@@ -202,9 +202,9 @@ int freeze_kernel_threads(void)
 	pm_nosig_freezing = true;
 	error = try_to_freeze_tasks(false);
 	if (!error)
-		printk("done.");
+		pr_debug("done.");
 
-	printk("\n");
+	pr_debug("\n");
 	BUG_ON(in_atomic());
 
 	if (error)
@@ -257,7 +257,7 @@ void thaw_processes(void)
 	usermodehelper_enable();
 
 	schedule();
-	printk("done.\n");
+	pr_debug("done.\n");
 }
 
 void thaw_kernel_threads(void)
@@ -277,5 +277,5 @@ void thaw_kernel_threads(void)
 	read_unlock(&tasklist_lock);
 
 	schedule();
-	printk("done.\n");
+	pr_debug("done.\n");
 }
