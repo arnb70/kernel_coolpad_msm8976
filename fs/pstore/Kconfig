@@ -64,3 +64,12 @@ config YL_PSTORE
 	depends on PSTORE
 	help
 	yulong modify for different ddr size.
+
+config PSTORE_LAST_KMSG
+       bool "export /proc/last_kmsg"
+       default y
+       depends on PSTORE
+       help
+         When the option is enabled, pstore will export a proc filesystem
+         interface /proc/last_kmsg.
+>>>>>>> f51160fb7ed3... Add last_kmsg support
