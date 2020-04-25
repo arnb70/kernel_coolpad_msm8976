@@ -1332,8 +1332,7 @@ static int wlan_logging_thread(void *Arg)
 		}
 	}
 
-	complete(&gwlan_logging.shutdown_comp);
-	do_exit(0);
+	complete_and_exit(&gwlan_logging.shutdown_comp, 0);
 
 	return 0;
 }
@@ -1649,7 +1648,6 @@ int wlan_logging_sock_deactivate_svc(void)
 	gapp_pid = INVALID_PID;
 
 	INIT_COMPLETION(gwlan_logging.shutdown_comp);
-	wmb();
 	gwlan_logging.exit = true;
 	gwlan_logging.is_active = false;
 	vos_set_multicast_logging(0);
