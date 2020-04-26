@@ -70,6 +70,7 @@
 		/* esd start */
 		//qcom,esd-check-enabled;
 		qcom,ulps-enabled;
+		qcom,suspend-ulps-enabled;
 		qcom,panel-allow-phy-poweroff;
 		qcom,mdss-dsi-panel-status-value = <0x9C>;
 		qcom,mdss-dsi-panel-status-read-length = <1>;
