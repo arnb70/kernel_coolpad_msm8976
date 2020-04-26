@@ -131,6 +131,7 @@
 		/**************************************************
 		//qcom,esd-check-enabled;							//esd
 		qcom,ulps-enabled;
+		qcom,suspend-ulps-enabled;
 		qcom,panel-allow-phy-poweroff;
 		qcom,panel-alive-reg-content = [
 				0A 01 9C
