@@ -121,7 +121,7 @@ void migrate_irqs(void)
 
 		raw_spin_lock(&desc->lock);
 		affinity_broken = migrate_one_irq(desc);
-		raw_spin_unlock(&desc->lock);d
+		raw_spin_unlock(&desc->lock);
 	}
 
 	local_irq_restore(flags);
