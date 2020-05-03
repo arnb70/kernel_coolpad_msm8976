@@ -1612,11 +1612,8 @@ static void msm_afe_clear_config(void)
 	afe_clear_config(AFE_SLIMBUS_SLAVE_CONFIG);
 }
 
-static int quat_mi2s_clk_ctl(struct snd_pcm_substream *substream, bool enable)
+static uint32_t get_mi2s_rx_clk_val(void)
 {
-
-	int ret = 0;
-
 	if (mi2s_rx_bit_format == (SNDRV_PCM_FORMAT_S24_LE || SNDRV_PCM_FORMAT_S24_3LE || 
 							   SNDRV_PCM_FORMAT_S32_LE))
 		return Q6AFE_LPASS_IBIT_CLK_3_P072_MHZ;
@@ -1646,6 +1643,11 @@ static int msm8952_get_clk_id(int port_id)
 		return -EINVAL;
 	}
 }
+
+
+static int quat_mi2s_clk_ctl(struct snd_pcm_substream *substream, bool enable)
+{
+ 	int ret = 0;
 
 	if (enable) {
 		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
