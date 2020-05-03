@@ -523,6 +523,30 @@ static void __cpufreq_interactive_timer(unsigned long data, bool is_notif)
 		} else {
 			now = update_load(i);
 			delta_time = (unsigned int)
+	spin_lock_irqsave(&pcpu->load_lock, flags);
+	pcpu->last_evaluated_jiffy = get_jiffies_64();
+	now = update_load(data);
+	if (tunables->use_sched_load) {
+		/*
+		 * Unlock early to avoid deadlock.
+		 *
+		 * load_change_callback() for thread migration already
+		 * holds rq lock. Then it locks load_lock to avoid racing
+		 * with cpufreq_interactive_timer_resched/start().
+		 * sched_get_busy() will also acquire rq lock. Thus we
+		 * can't hold load_lock when calling sched_get_busy().
+		 *
+		 * load_lock used in this function protects time
+		 * and load information. These stats are not used when
+		 * scheduler input is available. Thus unlocking load_lock
+		 * early is perfectly OK.
+		 */
+		spin_unlock_irqrestore(&pcpu->load_lock, flags);
+		cputime_speedadj = (u64)sched_get_busy(data) *
+				pcpu->policy->cpuinfo.max_freq;
+		do_div(cputime_speedadj, tunables->timer_rate);
+	} else {
+		delta_time = (unsigned int)
 				(now - pcpu->cputime_speedadj_timestamp);
 			if (WARN_ON_ONCE(!delta_time))
 				continue;
@@ -1115,7 +1139,6 @@ static ssize_t store_timer_rate(struct cpufreq_interactive_tunables *tunables,
 		pr_warn("timer_rate not aligned to jiffy. Rounded up to %lu\n",
 			val_round);
 	tunables->timer_rate = val_round;
-	tunables->prev_timer_rate = val_round;
 
 	if (!tunables->use_sched_load)
 		return count;
@@ -1126,8 +1149,6 @@ static ssize_t store_timer_rate(struct cpufreq_interactive_tunables *tunables,
 		t = per_cpu(polinfo, cpu)->cached_tunables;
 		if (t && t->use_sched_load) {
 			t->timer_rate = val_round;
-			t->prev_timer_rate = val_round;
-		}
 	}
 	set_window_helper(tunables);
 
@@ -1699,7 +1720,8 @@ static struct cpufreq_interactive_tunables *alloc_tunable(
 	tunables->target_loads = default_target_loads;
 	tunables->ntarget_loads = ARRAY_SIZE(default_target_loads);
 	tunables->min_sample_time = DEFAULT_MIN_SAMPLE_TIME;
-	tunables->timer_rate = DEFAULT_TIMER_RATE;
+	tunables->timer_rate = DEFAULT_TIMER_RATE;w
+
 	tunables->prev_timer_rate = DEFAULT_TIMER_RATE;
 	tunables->sleep_timer_rate = SCREEN_OFF_TIMER_RATE;
 	tunables->boostpulse_duration_val = DEFAULT_MIN_SAMPLE_TIME;
