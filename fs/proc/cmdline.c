@@ -62,7 +62,6 @@ static void remove_safetynet_flags(char *cmd)
 
 static int __init proc_cmdline_init(void)
 {
-<<<<<<< HEAD
 	strcpy(new_command_line, saved_command_line);
 
 	/*
@@ -71,32 +70,6 @@ static int __init proc_cmdline_init(void)
 	 */
 	remove_safetynet_flags(new_command_line);
 	strcpy(new_command_line2, new_command_line);
-
-=======
-	char *offset_addr, *cmd = new_command_line;
-	
-	strcpy(cmd, saved_command_line);
-	
-	/*
-	 * Remove 'androidboot.verifiedbootstate' flag from command line seen
-	 * by userspace in order to pass SafetyNet CTS check.
-	 */
-	offset_addr = strstr(cmd, "androidboot.verifiedbootstate=");
-	if (offset_addr) {
-		size_t i, len, offset;
-		
-		len = strlen(cmd);
-		offset = offset_addr - cmd;
-		
-		for (i = 1; i < (len - offset); i++) {
-			if (cmd[offset + i] == ' ')
-				break;
-		}
-		
-		memmove(offset_addr, &cmd[offset + i + 1], len - i - offset);
-	}
-	
->>>>>>> b4f794ab4e0... Merge Overdose Stuff #1
 	proc_create("cmdline", 0, NULL, &cmdline_proc_fops);
 	return 0;
 }
