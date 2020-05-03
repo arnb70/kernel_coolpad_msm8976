@@ -17,7 +17,7 @@ Anykernel_DIR=$KERNEL_DIR/AnyKernel3/
 DATE=$(date +"%d%m%Y")
 TIME=$(date +"-%H.%M.%S")
 KERNEL_NAME="Graphene"
-DEVICE="-c1-"
+DEVICE="-COOL1-"
 FINAL_ZIP="$KERNEL_NAME""$DEVICE""$DATE""$TIME"
 
 BUILD_START=$(date +"%s")
